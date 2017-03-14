@@ -8,7 +8,6 @@
     <artifactId>springbootquick</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
     <packaging>jar</packaging>
     <name>springbootquick</name>
     <parent>
@@ -53,7 +52,6 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
@@ -83,6 +81,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

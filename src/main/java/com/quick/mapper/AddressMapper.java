@@ -1,6 +1,7 @@
 package com.quick.mapper;
 
 import com.quick.entity.Address;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by wangxc on 2017/3/14.
  */
+@Mapper
 public interface AddressMapper {
 
     @Results(id="allLists",value={

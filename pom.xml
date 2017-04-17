@@ -10,7 +10,7 @@
 
 
     <packaging>jar</packaging>
-    <name>springbootquick</name>
+    <name>web</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -19,16 +19,12 @@
     </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!--<scala.binary.version>2.11</scala.binary.version>-->
-        <!--<nd4j.version>0.8.0</nd4j.version>-->
-        <!--<dl4j.version>0.8.0</dl4j.version>-->
-        <!--<datavec.version>0.8.0</datavec.version>-->
-        <!--<guava.version>19.0</guava.version>-->
-        <!--<java.version>1.7</java.version>-->
+        <scala.version>2.10.4</scala.version>
+        <spark.version>1.6.2</spark.version>
     </properties>
+
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -36,11 +32,6 @@
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-                <!--去除tomcat启动模块-->
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -58,38 +49,67 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
         <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <version>2.4</version>
-            <classifier>jdk15</classifier>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.10</artifactId>
+            <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-launcher_2.10</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-mllib_2.10</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.10</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.specs</groupId>
+            <artifactId>specs</artifactId>
+            <version>1.2.5</version>
+            <scope>test</scope>
         </dependency>
 
-            <!-- Spark -->
-            <dependency>
-                <groupId>org.apache.spark</groupId>
-                <artifactId>spark-core_2.11</artifactId>
-                <version>2.1.0</version>
-            </dependency>
-
-            <!-- Logging -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>1.7.22</version>
-            </dependency>
-
-            <!-- Testing -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
-                <scope>test</scope>
-            </dependency>
+        <dependency>
+            <groupId>org.ansj</groupId>
+            <artifactId>ansj_seg</artifactId>
+            <version>5.1.1</version>
+        </dependency>
 
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -104,6 +124,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

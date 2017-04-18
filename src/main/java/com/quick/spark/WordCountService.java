@@ -27,47 +27,37 @@ public class WordCountService implements Serializable {
 
         System.out.println(lines.count());
 
-        JavaRDD<String> words = lines.flatMap(word->Arrays.asList(SPACE.split(word)));
+        JavaRDD<String> words = lines.flatMap(word-> Arrays.asList(SPACE.split(word)));
         JavaPairRDD<String, Integer> ones = words.mapToPair(s->new Tuple2<String, Integer>(s, 1));
         JavaPairRDD<String, Integer> counts = ones.reduceByKey((Integer i1, Integer i2)->(i1 + i2));
         List<Tuple2<String, Integer>> output = counts.collect();
         output.forEach(item->result.put(item._1(),item._2()));
 
-
-/** 非lambda表达式
+/**
         JavaRDD<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
-
-
             @Override
             public Iterable<String> call(String s) throws Exception {
                 return Arrays.asList(SPACE.split(s));
             }
         });
-
         JavaPairRDD<String, Integer> ones = words.mapToPair(new PairFunction<String, String, Integer>() {
-
             private static final long serialVersionUID = 1L;
-
             public Tuple2<String, Integer> call(String s) {
                 return new Tuple2<String, Integer>(s, 1);
             }
         });
-
-                JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
-
+        JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
             private static final long serialVersionUID = 1L;
 
             public Integer call(Integer i1, Integer i2) {
                 return i1 + i2;
             }
         });
-
-                for (Tuple2<String, Integer> tuple : output) {
-            result.put(tuple._1(),tuple._2());
-
+        List<Tuple2<String, Integer>> output = counts.collect();
+        for (Tuple2<String, Integer> tuple : output) {
+            result.put(tuple._1(), tuple._2());
         }
-
-**/
+ */
         return result;
 
     }

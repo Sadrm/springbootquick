@@ -3,10 +3,6 @@ package com.quick.spark;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.Function2;
-import org.apache.spark.api.java.function.PairFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import scala.Serializable;
@@ -29,16 +25,16 @@ public class WordCountService implements Serializable {
         Map<String, Integer> result = new HashMap<>();
         JavaRDD<String> lines = sc.textFile("C:\\Users\\bd2\\Downloads\\blsmy.txt").cache();
 
-        lines.map(new Function<String, String>() {
-            @Override
-            public String call(String s) throws Exception {
-                System.out.println(s);
-                return s;
-            }
-        });
-        
         System.out.println(lines.count());
 
+        JavaRDD<String> words = lines.flatMap(word->Arrays.asList(SPACE.split(word)));
+        JavaPairRDD<String, Integer> ones = words.mapToPair(s->new Tuple2<String, Integer>(s, 1));
+        JavaPairRDD<String, Integer> counts = ones.reduceByKey((Integer i1, Integer i2)->(i1 + i2));
+        List<Tuple2<String, Integer>> output = counts.collect();
+        output.forEach(item->result.put(item._1(),item._2()));
+
+
+/** 非lambda表达式
         JavaRDD<String> words = lines.flatMap(new FlatMapFunction<String, String>() {
 
 
@@ -57,7 +53,7 @@ public class WordCountService implements Serializable {
             }
         });
 
-        JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
+                JavaPairRDD<String, Integer> counts = ones.reduceByKey(new Function2<Integer, Integer, Integer>() {
 
             private static final long serialVersionUID = 1L;
 
@@ -66,13 +62,16 @@ public class WordCountService implements Serializable {
             }
         });
 
-        List<Tuple2<String, Integer>> output = counts.collect();
-        for (Tuple2<String, Integer> tuple : output) {
+                for (Tuple2<String, Integer> tuple : output) {
             result.put(tuple._1(),tuple._2());
 
         }
 
+**/
         return result;
 
     }
 }
+
+
+
